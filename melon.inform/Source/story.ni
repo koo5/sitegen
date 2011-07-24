@@ -2,6 +2,9 @@
 
 The site is a room.
 
+[Section no world (in place of Section SR1/0 - Language in Standard Rules by Graham Nelson)]
+
+
 Use MAX_STATIC_DATA of 38000000.
 Use maximum indexed text length of at least 10241.
 
@@ -82,6 +85,13 @@ To write index:
 	append "[footer]";
 	close current file;
 
+To write search:
+	start writing "search.php";
+	append "[page start with title site name]";
+	append "<?php include 'searchbackend.php'?>";
+	append "[footer]";
+	close current file;
+
 to write posts:
 	repeat through table of posts:
 		start writing "[subject entry].html";
@@ -126,6 +136,7 @@ To generate site:
 	write index;
 	say "writing posts[line break]";
 	write posts;
+	write search;
 	write sitemap;
 	write file of files from table of files;
 	say "done[line break]";
@@ -134,12 +145,12 @@ To generate site:
 site name is indexed text that varies;
 pages is a list of indexed text that varies;
 
-div is a kind. div can be on_bottom, on_top, or hidden;
+div is a kind of thing. div can be on_bottom, on_top, or hidden;
 
 search box is a div; search box is on_bottom;
 
 To say search box:
-	say "<div align='right'><form><input type='text'><input type='submit'></form></div>";
+	say "<div align='right'><form action='search.php'><input type='text' name='searchstring'><input type='submit'></form></div>";
 
 
 
