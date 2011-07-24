@@ -2,8 +2,8 @@
 
 The site is a room.
 
-Use MAX_STATIC_DATA of 380000000.
-Use maximum indexed text length of at least 10241024.
+Use MAX_STATIC_DATA of 38000000.
+Use maximum indexed text length of at least 10241.
 
 [big big tables]
 
@@ -31,9 +31,6 @@ To start writing (file name - indexed text):
 To append (x - indexed text):
 	append "[x][line break]" to file of fast cat;
 
-To append text (x - text):
-	append "[x][line break]" to file of fast cat;
-
 To close current file:
 	choose blank row in table of files;
 	now the name entry is current file name;
@@ -41,15 +38,6 @@ To close current file:
 	now content is "[text of file of fast cat]";
 	now the content entry is content;
 
-To generate site:
-	read file of posts into table of posts;
-	say "writing index.html[line break]";
-	write index;
-	say "writing posts[line break]";
-	write posts;
-	write sitemap;
-	write file of files from table of files;
-	say "done[line break]";
 
 To write sitemap:
 	start writing "sitemap.xml";
@@ -64,10 +52,17 @@ To say sitemap:
 		say "<url><loc>[encoded link page]</loc></url>";
 	line "</urlset>";
 
+
+To say footer:
+	if search box is on_bottom:
+		say "[search box]";
+	say "</body></html>";
+
 To say header:
 	line "<div id='header'><h1>";
 	say link site name to "/";
-	line "</div></h1>";
+	line "</h1></div>";
+	if search box is on_top, say "[search box]";
 
 To say page start with title (title - indexed text):
 	line "<html><head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/><title>";
@@ -80,24 +75,20 @@ To write index:
 	choose row 1 in table of posts;
 	append "[page start with title subject entry]";
 	repeat through table of posts:
-		append text "<h2>";
+		append "<h2>";
 		append subject entry;
-		append text "</h2>";
+		append "</h2>";
 		append content entry;
-	append text "</body></html>";
+	append "[footer]";
 	close current file;
 
 to write posts:
 	repeat through table of posts:
 		start writing "[subject entry].html";
-		append "<html><head>[css]<title>";
-		append subject entry;
-		append "</title></head><body>[header][sidebars]";
-		append text "<h2>";
-		append subject entry;
-		append text "</h2>";
+		append "[page start with title subject entry]";
+		append "<h2>[subject entry]</h2>";
 		append content entry;
-		append text "</body></html>";
+		append "[footer]";
 		close current file;
 	
 to say css:
@@ -128,13 +119,27 @@ to say sidebars:
 	line "<h1>Moo!</h1>";
 	line "</div>";
 	
-	
-site name is indexed text that varies;
 
+To generate site:
+	read file of posts into table of posts;
+	say "writing index.html[line break]";
+	write index;
+	say "writing posts[line break]";
+	write posts;
+	write sitemap;
+	write file of files from table of files;
+	say "done[line break]";
+
+
+site name is indexed text that varies;
 pages is a list of indexed text that varies;
 
+div is a kind. div can be on_bottom, on_top, or hidden;
 
+search box is a div; search box is on_bottom;
 
+To say search box:
+	say "<div align='right'><form><input type='text'><input type='submit'></form></div>";
 
 
 
@@ -153,5 +158,6 @@ pages is a list of indexed text that varies;
 
 when play begins:
 	now site name is "Webik";
+	now search box is on_top;
 	generate site.
 
