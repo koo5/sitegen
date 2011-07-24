@@ -1,0 +1,37 @@
+body{
+  margin:0;
+  padding:0 150px 0 150px;
+ }
+ div#left-sidebar{
+  position:absolute;
+  top:0;
+  left:0;
+  width:150px;
+  height:100%;
+ }
+ div#right-sidebar{
+  position:absolute;
+  top:0;
+  right:0;
+  width:150px;
+  height:100%;
+ }
+ @media screen{
+  body>div#left-sidebar{
+   position:fixed;
+  }
+  body>div#right-sidebar{
+   position:fixed;
+  }
+ }
+ * html body{
+  overflow:hidden;
+ }
+ * html div#content{
+  height:100%;
+  overflow:auto;
+ }
+img.right { padding: 4px; margin: 0 0 2px 7px; display: inline; }
+img.left { padding: 4px; margin: 0 7px 2px 0; display: inline; }
+.right { float: right; }
+.left { float: left; } 

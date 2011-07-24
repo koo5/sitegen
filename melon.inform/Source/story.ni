@@ -3,15 +3,15 @@
 The site is a room.
 
 [Section no world (in place of Section SR1/0 - Language in Standard Rules by Graham Nelson)]
-
+[get rid of world model?]
 
 Use MAX_STATIC_DATA of 38000000.
 Use maximum indexed text length of at least 10241.
-
 [big big tables]
 
 File of posts (owned by another project) is called "posts".
 File of files (owned by another project) is called "files".
+File of images (owned by another project) is called "images".
 File of fast cat (owned by another project) is called "fastcat".
 [concatenating strings is damn slow, so we append to file]
 
@@ -21,6 +21,10 @@ with 1000 blank rows
 
 table of files
 name (indexed text)	content (indexed text)
+with 1000 blank rows
+
+table of images
+name (indexed text)
 with 1000 blank rows
 
 current file name is some indexed text variable;
@@ -78,10 +82,12 @@ To write index:
 	choose row 1 in table of posts;
 	append "[page start with title subject entry]";
 	repeat through table of posts:
-		append "<h2>";
+		append "<div><h2>";
 		append subject entry;
 		append "</h2>";
+		write random image with alt being the subject entry;
 		append content entry;
+		append "</div>";
 	append "[footer]";
 	close current file;
 
@@ -92,11 +98,18 @@ To write search:
 	append "[footer]";
 	close current file;
 
+to write random image with alt being the (t - indexed text):
+	if enable images is true:
+		choose random row in table of images;
+		append "<img src='[name entry]'[if titles for img alts is true] alt='[t]'[end if] class='[one of]left[or]right[at random]'>";
+	
+
 to write posts:
 	repeat through table of posts:
 		start writing "[subject entry].html";
 		append "[page start with title subject entry]";
 		append "<h2>[subject entry]</h2>";
+		write random image with alt being the subject entry;
 		append content entry;
 		append "[footer]";
 		close current file;
@@ -132,6 +145,7 @@ to say sidebars:
 
 To generate site:
 	read file of posts into table of posts;
+	read file of images into table of images;
 	say "writing index.html[line break]";
 	write index;
 	say "writing posts[line break]";
@@ -152,7 +166,8 @@ search box is a div; search box is on_bottom;
 To say search box:
 	say "<div align='right'><form action='search.php'><input type='text' name='searchstring'><input type='submit'></form></div>";
 
-
+titles for img alts is a truth state that varies; titles for img alts is true;
+enable images is a truth state that varies; enable images is true;
 
 
 
@@ -171,5 +186,6 @@ when play begins:
 	now site name is "Webik";
 	[on_top, on_bottom, nowhere]
 	now search box is on_top;
+	now titles for img alts is true;
 	generate site.
 
