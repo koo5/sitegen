@@ -2,7 +2,9 @@
 
 The site is a room.
 
-Use MAX_STATIC_DATA of 38000000.
+Use MAX_STATIC_DATA of 380000000.
+Use maximum indexed text length of at least 10241024.
+
 [big big tables]
 
 File of posts (owned by another project) is called "posts".
@@ -23,6 +25,8 @@ current file name is some indexed text variable;
 To start writing (file name - indexed text):
 	now current file name is file name;
 	write "" to file of fast cat;
+	if file name  matches the regular expression ".+\.html$": [ends with]
+		add file name to pages;
 
 To append (x - indexed text):
 	append "[x][line break]" to file of fast cat;
@@ -37,21 +41,44 @@ To close current file:
 	now content is "[text of file of fast cat]";
 	now the content entry is content;
 
-When play begins:
+To generate site:
 	read file of posts into table of posts;
 	say "writing index.html[line break]";
 	write index;
 	say "writing posts[line break]";
 	write posts;
+	write sitemap;
 	write file of files from table of files;
 	say "done[line break]";
 
+To write sitemap:
+	start writing "sitemap.xml";
+	append "[sitemap]";
+	close current file;
+
+To say sitemap:
+	line "<?xml version='1.0' encoding='UTF-8'?>";
+	line "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>";
+	[http://www.google.com/support/webmasters/bin/answer.py?answer=34657&query=sitemap&type=]
+	repeat with page running through pages:
+		say "<url><loc>[encoded link page]</loc></url>";
+	line "</urlset>";
+
+To say header:
+	line "<div id='header'><h1>";
+	say link site name to "/";
+	line "</div></h1>";
+
+To say page start with title (title - indexed text):
+	line "<html><head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/><title>";
+	line title;
+	line "</title>[css]</head><body>[header][sidebars]";
+	
+
 To write index:
 	start writing "index.html";
-	append "<html><head><title>";
 	choose row 1 in table of posts;
-	append subject entry;
-	append text "</title>[css]</head><body>[sidebars]";
+	append "[page start with title subject entry]";
 	repeat through table of posts:
 		append text "<h2>";
 		append subject entry;
@@ -65,7 +92,7 @@ to write posts:
 		start writing "[subject entry].html";
 		append "<html><head>[css]<title>";
 		append subject entry;
-		append "</title></head><body>[sidebars]";
+		append "</title></head><body>[header][sidebars]";
 		append text "<h2>";
 		append subject entry;
 		append text "</h2>";
@@ -87,17 +114,44 @@ To decide which indexed text is encoded link (link - indexed text):
 	replace the text "'" in link with "&quot;";
 	decide on link;
 
-to say href (caption - indexed text) to (link - indexed text):
+to say link (caption - indexed text) to (link - indexed text):
 	let enc be encoded link link;
 	say "<a href='[enc]'>[caption]</a>";
 
 to say sidebars:
-	say href "a" to " bbb";
 	line "<div id='left-sidebar'>";
 	repeat through table of posts:
-		line "<a href=[subject entry].html>[subject entry]</a><br>";
+		say link "[subject entry]" to "[subject entry].html";
+		line "<br>";
 	line "</div>";
 	line "<div id='right-sidebar'>";
 	line "<h1>Moo!</h1>";
 	line "</div>";
 	
+	
+site name is indexed text that varies;
+
+pages is a list of indexed text that varies;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+when play begins:
+	now site name is "Webik";
+	generate site.
+
