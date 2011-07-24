@@ -169,6 +169,7 @@ To say search box:
 
 when play begins:
 	now site name is "Webik";
+	[on_top, on_bottom, nowhere]
 	now search box is on_top;
 	generate site.
 
