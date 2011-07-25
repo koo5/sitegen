@@ -14,6 +14,8 @@ File of files (owned by another project) is called "files".
 File of images (owned by another project) is called "images".
 File of fast cat (owned by another project) is called "fastcat".
 [concatenating strings is damn slow, so we append to file]
+File of unicode hell (owned by another project) is called "unicodehell".
+[dont ask...]
 
 table of posts
 subject (indexed text)	content (indexed text)
@@ -27,6 +29,10 @@ table of images
 name (indexed text)
 with 1000 blank rows
 
+table of unicode hell
+byte (indexed text)	first half (indexed text)	second half (indexed text)
+with 256 blank rows
+
 current file name is some indexed text variable;
 
 To start writing (file name - indexed text):
@@ -35,16 +41,21 @@ To start writing (file name - indexed text):
 	if file name  matches the regular expression ".+\.html$": [ends with]
 		add file name to pages;
 
-To append (x - indexed text):
-	append "[x][line break]" to file of fast cat;
+To append (l - indexed text):
+	append line "[l][line break]";
+
+To append line (x - indexed text):
+	repeat with pos running from 1 to number of characters in x:
+		let b be character number pos in x;
+		say b;
+		choose row with byte of b from the table of unicode hell;
+		append "[first half entry][second half entry]" to file of fast cat;
+[		append "[b]" to file of fast cat;]
 
 To close current file:
 	choose blank row in table of files;
 	now the name entry is current file name;
-	let content be some indexed text;
-	now content is "[text of file of fast cat]";
-	now the content entry is content;
-
+	now the content entry is "[text of file of fast cat]";
 
 To write sitemap:
 	start writing "sitemap.xml";
@@ -143,9 +154,10 @@ to say sidebars:
 	line "</div>";
 	
 
-To generate site:
+To generate files:
 	read file of posts into table of posts;
 	read file of images into table of images;
+	read file of unicode hell into table of unicode hell;
 	say "writing index.html[line break]";
 	write index;
 	say "writing posts[line break]";
@@ -178,14 +190,17 @@ enable images is a truth state that varies; enable images is true;
 
 
 
+To generate site:
+	now site name is "Webik";
+	[on_top, on_bottom, nowhere]
+	now search box is on_top;
+	now titles for img alts is true;
+	generate files.
 
 
 
 
 when play begins:
-	now site name is "Webik";
-	[on_top, on_bottom, nowhere]
-	now search box is on_top;
-	now titles for img alts is true;
-	generate site.
-
+[	read file of unicode hell into table of unicode hell;]
+	generate site;
+[	write file of unicode hell from table of unicode hell;]
