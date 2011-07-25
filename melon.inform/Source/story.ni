@@ -1,61 +1,88 @@
 "Melon" by kook.
+The generator room is a room.
 
-The site is a room.
 
-[Section no world (in place of Section SR1/0 - Language in Standard Rules by Graham Nelson)]
-[get rid of world model?]
 
-Use MAX_STATIC_DATA of 38000000.
-Use maximum indexed text length of at least 10241.
-[big big tables]
 
+Section limits
+
+
+Use MAX_STATIC_DATA of 380000000.
+Use maximum indexed text length of at least 102410.
+
+
+[increased some memory limits]
+
+
+
+
+Section files
+
+
+[input]
 File of posts (owned by another project) is called "posts".
-File of files (owned by another project) is called "files".
-File of images (owned by another project) is called "images".
-File of fast cat (owned by another project) is called "fastcat".
-[concatenating strings is damn slow, so we append to file]
-File of unicode hell (owned by another project) is called "unicodehell".
-[dont ask...]
+File of images (owned by another project) is called "images". [file names so we can add random ilustrations:)]
+[output]
+File of file infos (owned by another project) is called "fileinfos".
+File of file contents (owned by another project) is called "filecontents".
+
+
+
+
+Section tables
+
 
 table of posts
 subject (indexed text)	content (indexed text)
 with 1000 blank rows
 
-table of files
-name (indexed text)	content (indexed text)
+
+table of file infos
+name (indexed text)	amount of bytes (number)
 with 1000 blank rows
 
 table of images
 name (indexed text)
 with 1000 blank rows
 
-table of unicode hell
-byte (indexed text)	first half (indexed text)	second half (indexed text)
-with 256 blank rows
 
-current file name is some indexed text variable;
+
+
+Section file output
+
+
+length of currently writed file is a number variable;
 
 To start writing (file name - indexed text):
-	now current file name is file name;
-	write "" to file of fast cat;
-	if file name  matches the regular expression ".+\.html$": [ends with]
+	now the length of currently writed file is 0;
+	choose blank row in table of file infos;
+	now name entry is file name;
+	now amount of bytes entry is 0;
+	if file name  matches the regular expression ".+\.html$": [ends with it]
 		add file name to pages;
 
 To append (l - indexed text):
+	say "appending...[line break]";
 	append line "[l][line break]";
 
 To append line (x - indexed text):
-	repeat with pos running from 1 to number of characters in x:
-		let b be character number pos in x;
-		say b;
-		choose row with byte of b from the table of unicode hell;
-		append "[first half entry][second half entry]" to file of fast cat;
-[		append "[b]" to file of fast cat;]
+	say "appending[line break]";
+	increase length of currently writed file by number of characters in x;
+	say "counted[line break]";
+	append "[x]" to file of file contents;
+	say "appended [line break]";
 
 To close current file:
-	choose blank row in table of files;
-	now the name entry is current file name;
-	now the content entry is "[text of file of fast cat]";
+	[choose last row in table of file infos;]
+	let last be the number of filled rows in table of file infos;
+	choose row last in table of file infos;
+	now the amount of bytes entry is length of currently writed file;
+
+
+
+
+Section sitemap
+
 
 To write sitemap:
 	start writing "sitemap.xml";
@@ -69,6 +96,11 @@ To say sitemap:
 	repeat with page running through pages:
 		say "<url><loc>[encoded link page]</loc></url>";
 	line "</urlset>";
+
+
+
+
+Section pages
 
 
 To say footer:
@@ -117,6 +149,7 @@ to write random image with alt being the (t - indexed text):
 
 to write posts:
 	repeat through table of posts:
+		say "[subject entry][line break]";
 		start writing "[subject entry].html";
 		append "[page start with title subject entry]";
 		append "<h2>[subject entry]</h2>";
@@ -124,7 +157,7 @@ to write posts:
 		append content entry;
 		append "[footer]";
 		close current file;
-	
+
 to say css:
 	say "<link rel='stylesheet' href='main.css' type='text/css'>"
 	
@@ -133,7 +166,6 @@ to line (t - indexed text):
 	say "[t][line break]";
 
 To decide which indexed text is encoded link (link - indexed text):
-[	let result be some indexed text;]
 	replace the text "&" in link with "&amp;";
 	replace the text " " in link with "%20";
 	replace the text "'" in link with "&quot;";
@@ -154,40 +186,54 @@ to say sidebars:
 	line "</div>";
 	
 
-To generate files:
-	read file of posts into table of posts;
-	read file of images into table of images;
-	read file of unicode hell into table of unicode hell;
+
+
+
+
+
+
+Section generator
+
+
+To write files:
 	say "writing index.html[line break]";
 	write index;
 	say "writing posts[line break]";
 	write posts;
 	write search;
 	write sitemap;
-	write file of files from table of files;
-	say "done[line break]";
 
+To generate files:
+	write "" to file of file contents;
+	read file of posts into table of posts;
+	read file of images into table of images;
+	write files;
+	write file of file infos from table of file infos;
+	say "done[line break]";
 
 site name is indexed text that varies;
 pages is a list of indexed text that varies;
-
+titles for img alts is a truth state that varies; titles for img alts is true;
+enable images is a truth state that varies; enable images is true;
 div is a kind of thing. div can be on_bottom, on_top, or hidden;
+
+
+
+Section search box
+
 
 search box is a div; search box is on_bottom;
 
 To say search box:
 	say "<div align='right'><form action='search.php'><input type='text' name='searchstring'><input type='submit'></form></div>";
 
-titles for img alts is a truth state that varies; titles for img alts is true;
-enable images is a truth state that varies; enable images is true;
 
 
 
 
 
 
-
-
+Section some site
 
 
 To generate site:
@@ -201,6 +247,5 @@ To generate site:
 
 
 when play begins:
-[	read file of unicode hell into table of unicode hell;]
 	generate site;
-[	write file of unicode hell from table of unicode hell;]
+[	now site name is "[text of file of posts]";]

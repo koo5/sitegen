@@ -25,22 +25,45 @@ def write_inform_table_file(table, name):
     if type(table) is types.DictType:
 	for name, val in table.items():
 	    f.write(to_inform_indexed_text(name) + " " + to_inform_indexed_text(val) + "\n")
+	    if name.startswith("my"):
+		print to_inform_indexed_text(val)
+
     if type(table) is types.ListType:
 	for val in table:
 	    f.write(to_inform_indexed_text(val) + "\n")
     f.close()
 
+html_escape_table = {
+    "&": "&amp;",
+#    '"': "&quot;",
+#    "'": "&apos;",
+    ">": "&gt;",
+    "<": "&lt;",
+    "  ":"&nbsp;&nbsp;",
+    "\t":"&nbsp;&nbsp;&nbsp;&nbsp;",
+    "\n":"<br>"
+    }
+
+def html_escape(text):
+    return "".join(html_escape_table.get(c,c) for c in text)
+
 posts = dict()
 
-for root, dirs, files in os.walk('../posts'):
-   for name in files:       
+for root, dirs, files in os.walk('..'):
+    if root.startswith("../.git"): continue
+    if root.startswith("../images"): continue
+    if root.startswith("../run"): continue
+    if root.startswith("../melon.inform/Index"): continue
+    if root.startswith("../melon.inform/Build"): continue
+    for name in files:       
 	filename = os.path.join(root, name)
 	print filename
 	
 	r = open(filename, 'r')
 	o = r.read()
 	r.close()
-	posts[name] = o
+	posts[name] = html_escape(o)
+
 	
 write_inform_table_file(posts, 'posts')
 

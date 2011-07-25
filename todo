@@ -1,0 +1,17 @@
+[Section no world (in place of Section SR1/0 - Language in Standard Rules by Graham Nelson)]
+[get rid of world model?]
+choose last row in (table)
+
+
+
+
+speed:
+memory limits/allocations?
+
+
+posts into one file as ascii + split
+||
+feed posts in ascii one by one thru file with python
+
+php
+simplify writing post body
