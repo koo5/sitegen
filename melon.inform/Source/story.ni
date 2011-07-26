@@ -125,12 +125,13 @@ To write index:
 	choose row 1 in table of posts;
 	append "[page start with title subject entry]";
 	repeat through table of posts:
-		append "<div><h2>";
+		append "<div class='post'><h2>";
 		append subject entry;
 		append "</h2>";
 		write random image with alt being the subject entry;
 		append content entry;
 		append "</div>";
+		append "<div style='clear: both;'></div>";
 	append "[footer]";
 	close current file;
 
@@ -175,13 +176,19 @@ to say link (caption - indexed text) to (link - indexed text):
 	let enc be encoded link link;
 	say "<a href='[enc]'>[caption]</a>";
 
-to say sidebars:
-	line "<div id='left-sidebar'>";
+To say post links:
 	repeat through table of posts:
 		say link "[subject entry]" to "[subject entry].html";
 		line "<br>";
+
+to say sidebars:
+	line "<div id='left-sidebar'>";
+	if links are on the left:
+		say post links;
 	line "</div>";
 	line "<div id='right-sidebar'>";
+	if links are on the right:
+		say post links;
 	line "<h1>Moo!</h1>";
 	line "</div>";
 	
@@ -215,7 +222,7 @@ site name is indexed text that varies;
 pages is a list of indexed text that varies;
 titles for img alts is a truth state that varies; titles for img alts is true;
 enable images is a truth state that varies; enable images is true;
-div is a kind of thing. div can be on_bottom, on_top, or hidden;
+div is a kind of thing. div can be on_bottom, on_top, on the left, on the right, or hidden;
 
 
 
@@ -226,6 +233,11 @@ search box is a div; search box is on_bottom;
 
 To say search box:
 	say "<div align='right'><form action='search.php'><input type='text' name='searchstring'><input type='submit'></form></div>";
+
+Section links
+
+
+links are a div; links are on the left;
 
 
 

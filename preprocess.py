@@ -25,8 +25,6 @@ def write_inform_table_file(table, name):
     if type(table) is types.DictType:
 	for name, val in table.items():
 	    f.write(to_inform_indexed_text(name) + " " + to_inform_indexed_text(val) + "\n")
-	    if name.startswith("my"):
-		print to_inform_indexed_text(val)
 
     if type(table) is types.ListType:
 	for val in table:
@@ -49,8 +47,9 @@ def html_escape(text):
 
 posts = dict()
 
-for root, dirs, files in os.walk('..'):
+for root, dirs, files in os.walk('../posts'):
     if root.startswith("../.git"): continue
+    if root.startswith("../.posts"): continue
     if root.startswith("../images"): continue
     if root.startswith("../run"): continue
     if root.startswith("../melon.inform/Index"): continue
@@ -62,6 +61,9 @@ for root, dirs, files in os.walk('..'):
 	r = open(filename, 'r')
 	o = r.read()
 	r.close()
+	if name == "todo":
+	    print o
+
 	posts[name] = html_escape(o)
 
 	
