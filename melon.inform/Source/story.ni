@@ -120,16 +120,35 @@ To say page start with title (title - indexed text):
 	line "</title>[css]</head><body>[header][sidebars]";
 	
 
+To decide which number is the smaller of (a - number) and (b - number):
+	if a is less than b:
+		decide on a;
+	else:
+		decide on b;
+
+To decide which indexed text is excerpt of (content - indexed text):
+	let excerpt be some indexed text;
+	let words count be the smaller of the number of words in content and number of words in excerpts;
+	say "excerpting...";
+	repeat with word index running from 1 to words count:
+		now excerpt is "[excerpt] [word number word index in content]";
+	say "excerpt is [excerpt][paragraph break]";
+	decide on excerpt;
+
+
 To write index:
 	start writing "index.html";
 	choose row 1 in table of posts;
 	append "[page start with title subject entry]";
-	repeat through table of posts:
+	let excerpts count be the smaller of the number of excerpts and the number of filled rows in the table of posts;
+	repeat with row index running from 1 to excerpts count:
+		choose row row index in table of posts;
 		append "<div class='post'><h2>";
-		append subject entry;
+		append "[post link to subject entry]";
 		append "</h2>";
 		write random image with alt being the subject entry;
-		append content entry;
+		append excerpt of content entry;
+		append " <a href='[subject entry].html'>...</a>";
 		append "</div>";
 		append "<div style='clear: both;'></div>";
 	append "[footer]";
@@ -176,9 +195,12 @@ to say link (caption - indexed text) to (link - indexed text):
 	let enc be encoded link link;
 	say "<a href='[enc]'>[caption]</a>";
 
+To say post link to (subject entry - indexed text):
+	say link "[subject entry]" to "[subject entry].html";
+
 To say post links:
 	repeat through table of posts:
-		say link "[subject entry]" to "[subject entry].html";
+		say post link to subject entry;
 		line "<br>";
 
 to say sidebars:
@@ -218,12 +240,15 @@ To generate files:
 	write file of file infos from table of file infos;
 	say "done[line break]";
 
-site name is indexed text that varies;
+
 pages is a list of indexed text that varies;
+
+site name is indexed text that varies;
 titles for img alts is a truth state that varies; titles for img alts is true;
 enable images is a truth state that varies; enable images is true;
 div is a kind of thing. div can be on_bottom, on_top, on the left, on the right, or hidden;
-
+number of words in excerpts is a number that varies;
+number of excerpts is a number that varies;
 
 
 Section search box
@@ -253,6 +278,8 @@ To generate site:
 	[on_top, on_bottom, nowhere]
 	now search box is on_top;
 	now titles for img alts is true;
+	now number of excerpts is 10;
+	now number of words in excerpts is 100;
 	generate files.
 
 
