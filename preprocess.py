@@ -44,7 +44,20 @@ def html_escape(text):
 
 posts = []
 
-for root, dirs, files in os.walk('..'):
+def one_file(name, filename):
+    print filename
+    stats = os.stat(filename)
+    timestamp = stats[8]
+	
+    r = open(filename, 'r')
+    o = r.read()
+    r.close()
+
+    posts.append((name, timestamp, html_escape(o)))
+
+one_file('dbp', '../melon.inform/gameinfo.dbg')
+
+for root, dirs, files in os.walk('../melon.inform/gameinfo.dbg'):
     if root.startswith("../.git"): continue
     if root.startswith("../images"): continue
     if root.startswith("../run"): continue
@@ -52,19 +65,7 @@ for root, dirs, files in os.walk('..'):
     if root.startswith("../melon.inform/Build"): continue
     for name in files:       
 	filename = os.path.join(root, name)
-	print filename
-	stats = os.stat(filename)
-	timestamp = stats[8]
-	
-	r = open(filename, 'r')
-	o = r.read()
-	r.close()
-	if name == "todo":
-	    print 'TODO-------'
-	    print o
-	    print '<<<<<<<<<<<'
-
-	posts.append((name, timestamp, html_escape(o)))
+	one_file(name, filename)
 
 posts = sorted(posts, key=lambda post: post[1])
 
