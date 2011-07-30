@@ -1,23 +1,23 @@
 "sitegen" by kook.
+
+
+
+
+
+
+
+Section variables
+
 The generator room is a room.
-
-
-
-
-
-
-
-
-
-Section settings
-
-div is a kind of thing. 
+[the header, footer, left sidebar and right sidebar are here.]
 footer is a container.
 header is a container.
 left sidebar is a container.
 right sidebar is a container.
-links are a div; links are in the left sidebar;
 site name is indexed text that varies;
+div is a kind of thing. 
+links are a div; 
+links are in the left sidebar;
 titles for img alts is a truth state that varies;
 titles for img alts is true;
 enable images is a truth state that varies;
@@ -278,7 +278,8 @@ To say post links:
 
 Section search
 
-search box is a div;[ search box is in footer;]
+search box is a div;
+[search box is in footer;]
 
 To say search box:
 	say "<div align='right'><form action='search.php'><input type='text' name='searchstring'><input type='submit'></form></div>";
@@ -320,11 +321,11 @@ To generate site:
 
 
 
-Section some site
+Section webik
 
-To generate some site:
+To generate webik:
 	now site name is "Webik";
-	now search box is in header;
+	move search box to header;
 	now titles for img alts is true;
 	now number of excerpts is 10;
 	now number of words in excerpts is 100;
@@ -332,4 +333,4 @@ To generate some site:
 
 
 when play begins:
-	generate site;
+	generate webik;
