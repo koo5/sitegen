@@ -44,7 +44,7 @@ def html_escape(text):
 
 posts = []
 
-def one_file(name, filename):
+def add_file(name, filename):
     print filename
     stats = os.stat(filename)
     timestamp = stats[8]
@@ -55,17 +55,26 @@ def one_file(name, filename):
 
     posts.append((name, timestamp, html_escape(o)))
 
-one_file('dbp', '../melon.inform/gameinfo.dbg')
+def add_dir(dirname):
+    for root, dirs, files in os.walk(dirname):
+	if root.startswith("../.git"): continue
+        if root.startswith("../images"): continue
+        if root.startswith("../run"): continue
+        if root.startswith("../melon.inform/Index"): continue
+        if root.startswith("../melon.inform/Build"): continue
+        for name in files:       
+    	    filename = os.path.join(root, name)
+	    
+	    if filename == '../melon.inform/gameinfo.dbg': continue
+	    if filename == '../melon.inform/Source/.#story.ni': continue
+	    
+	    add_file(name, filename)
 
-for root, dirs, files in os.walk('../melon.inform/gameinfo.dbg'):
-    if root.startswith("../.git"): continue
-    if root.startswith("../images"): continue
-    if root.startswith("../run"): continue
-    if root.startswith("../melon.inform/Index"): continue
-    if root.startswith("../melon.inform/Build"): continue
-    for name in files:       
-	filename = os.path.join(root, name)
-	one_file(name, filename)
+#add_file('dbp', '../melon.inform/gameinfo.dbg')
+#add_dir('..')
+add_file('title', '../a/dd')
+#
+
 
 posts = sorted(posts, key=lambda post: post[1])
 
