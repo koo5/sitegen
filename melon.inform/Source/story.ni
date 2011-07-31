@@ -6,10 +6,10 @@
 
 
 
-
+[
 when play begins:
 	generate webik;
-
+]
 
 
 
@@ -17,14 +17,14 @@ when play begins:
 
 Section webik
 
-To generate webik:
+Carry out loading webik:
 	now site name is "Webik";
 	move search box to header;
 	move links to right sidebar;
 	now number of excerpts is 10;
 	now number of words in excerpts is 10;
-	generate site.
 
+Understand "load webik" as loading webik; loading webik is an action applying to nothing;
 
 
 
@@ -70,8 +70,10 @@ To write index:
 		write "[post link to subject entry]";
 		write "</h2>";
 		write random image with alt being the subject entry;
-		write excerpt of content entry;
-		write " <a href='[subject entry].html'>...</a>";
+		let excerpt be excerpt of content entry;
+		write excerpt;
+		if excerpt is not content entry:
+			write " <a href='[subject entry].html'>...</a>";
 		write "</div>";
 		write "<div style='clear: both;'></div>";
 	write "[page end]";
@@ -162,10 +164,12 @@ Section stuff in pages
 
 To decide which indexed text is excerpt of (content - indexed text):
 	let excerpt be some indexed text;
-	let words count be the smaller of the number of words in content and number of words in excerpts;
-	repeat with word index running from 1 to words count:
-		now excerpt is "[excerpt] [word number word index in content]";
-	decide on excerpt;
+	if number of words in excerpts is less than number of words in content:
+		repeat with word index running from 1 to number of words in excerpts:
+			now excerpt is "[excerpt] [word number word index in content]";
+		decide on excerpt;
+	else:
+		decide on content;
 
 to write random image with alt being the (t - indexed text):
 	if enable images is on:
@@ -218,10 +222,50 @@ To decide which indexed text is urlencoded url of (link - indexed text):
 	replace the text "'" in link with "&quot;";
 	decide on link;
 
+
+
+
+
+
+
+
+
+
+Section commands
+
 understand "gen" as generating; generating is an action applying to nothing;
 carry out generating:
 	generate site;
 
+understand "ei" as increasing number of excerpts; increasing number of excerpts is an action applying to nothing;
+carry out increasing number of excerpts:
+	increment number of excerpts;
+
+understand "ed" as decreasing number of excerpts; decreasing number of excerpts is an action applying to nothing;
+carry out decreasing number of excerpts:
+	decrement number of excerpts;
+
+understand "e [number]" as setting number of excerpts; setting number of excerpts is an action applying to one number;
+carry out setting number of excerpts:
+	now number of excerpts is number understood;
+
+after increasing number of excerpts, decreasing number of excerpts, setting number of excerpts:
+	line "number of excerpts on main page: [number of excerpts]";
+
+understand "wi" as increasing number of words in excerpts; increasing number of words in excerpts is an action applying to nothing;
+carry out increasing number of words in excerpts:
+	increment number of words in excerpts;
+
+understand "wd" as decreasing number of words in excerpts; decreasing number of words in excerpts is an action applying to nothing;
+carry out decreasing number of words in excerpts:
+	increment number of words in excerpts;
+
+understand "w [number]" as setting number of words in excerpts; setting number of words in excerpts is an action applying to one number;
+carry out setting number of words in excerpts:
+	now number of words in excerpts is number understood;
+
+after increasing number of words in excerpts, decreasing number of words in excerpts, setting number of words in excerpts:
+	line "number of words in one excerpt: [number of words in excerpts]";
 
 
 

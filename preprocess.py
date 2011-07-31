@@ -71,8 +71,8 @@ def add_dir(dirname):
 	    add_file(name, filename)
 
 #add_file('dbp', '../melon.inform/gameinfo.dbg')
-#add_dir('..')
-add_file('title', '../a/dd')
+add_dir('../posts')
+#add_file('title', '../a/d')
 #
 
 

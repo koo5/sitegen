@@ -3,6 +3,9 @@
 choose last row in (table)
 
 
+understand "set site name [text]" as setting site name; setting site name is an action applying to one text;
+<------>now site name is the text;
+
 
 
 speed:
