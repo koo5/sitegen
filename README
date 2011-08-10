@@ -1,1 +1,14 @@
 readme readme say that you read me
+
+things to sort out:
+crashes with gameinfo.dbg
+some other crashes...check out the commits...start writing better commit messages damnit!!
+
+
+debug mode speed:
+real	1m42.758s
+
+release mode speed:
+real	0m43.467s
+
+
